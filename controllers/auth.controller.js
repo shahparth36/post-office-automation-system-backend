@@ -19,7 +19,7 @@ async function authenticate(req, res, next) {
         email: foundUser.email,
       };
       const { accessToken, refreshToken } = generateTokens(dataToBeEncrypted);
-      return res.status(200).json(accessToken, refreshToken);
+      return res.status(200).json({ accessToken, refreshToken });
     }
   } catch (error) {
     next(error);
