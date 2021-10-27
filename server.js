@@ -33,6 +33,10 @@ app.use("/api/auth", authRoutes);
 
 app.use(handleError);
 
+if (process.env.NODE_ENV == 'production') {
+    app.use(express.static('client/build'))
+}
+
 app.listen(process.env.PORT, () =>
   console.log(`Server is listening at ${process.env.PORT}`)
 );
