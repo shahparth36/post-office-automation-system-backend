@@ -5,6 +5,8 @@ const cors = require("cors");
 
 const db = require("./models");
 const authRoutes = require("./routes/auth.routes");
+const packageRoutes = require("./routes/package.routes");
+const serviceRoutes = require("./routes/service.routes");
 const userRoutes = require("./routes/user.routes");
 
 const { handleError } = require("./middleware/handleError");
@@ -26,7 +28,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', userRoutes);
+app.use("/api", packageRoutes, serviceRoutes, userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.use(handleError);

@@ -1,34 +1,37 @@
 const express = require("express");
-const roles = require("../constants/roles");
 const router = express.Router();
 
 const {
-  createUser,
-  getUser,
-  updateUser,
-  deleteUser,
+  sendPackage,
+  updatePackageLocation,
+  getPackage,
+  getUserPackages,
 } = require("../controllers");
 
 const { authorize } = require("../middleware/authorize");
 
-router.post("/user", createUser);
-
-router.get(
-  "/user",
+router.post(
+  "/send-package",
   (req, res, next) => authorize(req, res, next, [roles.user, roles.admin]),
-  getUser
+  sendPackage
 );
 
 router.put(
-  "/user",
-  (req, res, next) => authorize(req, res, next, [roles.user, roles.admin]),
-  updateUser
+  "/update-package-location",
+  (req, res, next) => authorize(req, res, next, [roles.admin]),
+  updatePackageLocation
 );
 
-router.delete(
-  "/user",
+router.get(
+  "/package/:packageId",
   (req, res, next) => authorize(req, res, next, [roles.user, roles.admin]),
-  deleteUser
+  getPackage
+);
+
+router.get(
+  "/user-packages",
+  (req, res, next) => authorize(req, res, next, [roles.user, roles.admin]),
+  getUserPackages
 );
 
 module.exports = router;

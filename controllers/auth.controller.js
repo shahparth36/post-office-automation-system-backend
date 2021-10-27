@@ -17,9 +17,12 @@ async function authenticate(req, res, next) {
     else {
       const dataToBeEncrypted = {
         email: foundUser.email,
+        role: foundUser.role,
       };
       const { accessToken, refreshToken } = generateTokens(dataToBeEncrypted);
-      return res.status(200).json({ accessToken, refreshToken });
+      return res
+        .status(200)
+        .json({ message: "Logged In Successfully", accessToken, refreshToken });
     }
   } catch (error) {
     next(error);

@@ -10,16 +10,13 @@ function authorize(req, res, next, roles) {
   const token = extractToken(req); // extracting token from headers
 
   // if there is no access or refresh token present inside headers
-  if (!token.accessToken)
+  if (!token)
     return res
       .status(403)
       .json({ type: UnauthorizedError, message: "Please provide a token" });
 
   // verifying and retreiving data from the token
-  const encryptedDataInAccessToken = verifyToken(
-    token.accessToken,
-    accessTokenConstant
-  );
+  const encryptedDataInAccessToken = verifyToken(token, accessTokenConstant);
 
   // accessToken expired
   if (!encryptedDataInAccessToken) {
