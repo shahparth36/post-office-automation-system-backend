@@ -36,19 +36,31 @@ async function updatePackageLocation(req, res, next) {
     const package = await Package.findOne({ packageId });
     if (!package) throw Boom.badRequest("Package with given id not found");
 
-    package.location.currentLocation = newLocation;
+    const toBeUpdatedObj = {
+      location: {
+        source: package.location.source,
+        currentLocation: newLocation,
+        destination: package.location.destination,
+      },
+    };
+
     if (package.location.currentLocation === package.location.destination) {
-      package.status = "At Destination Office";
+      toBeUpdatedObj["status"] = "At Destination Office";
     } else if (package.location.currentLocation !== package.location.source) {
-      package.status = "In Transit";
+      toBeUpdatedObj["status"] = "In Transit";
     } else if (package.location.currentLocation === package.location.source) {
-      package.status = "At Source Office";
+      toBeUpdatedObj["status"] = "At Source Office";
     }
-    package.save();
+
+    const updatedPackage = await Package.findOneAndUpdate(
+      { packageId },
+      toBeUpdatedObj,
+      { new: true }
+    );
 
     return res
       .status(200)
-      .json({ message: "Updated Package Successfully", package });
+      .json({ message: "Updated Package Successfully", updatedPackage });
   } catch (error) {
     next(error);
   }
@@ -87,6 +99,16 @@ async function getUserPackages(req, res, next) {
   }
 }
 
+async function getPackages(req, res, next) {
+  try {
+    const foundPackages = await Package.find({});
+
+    return res.status(200).json(foundPackages);
+  } catch (error) {
+    next(error);
+  }
+}
+
 function generateRandomNo() {
   return Math.floor(Math.random() * 90000000 + 10000000);
 }
@@ -96,4 +118,5 @@ module.exports = {
   updatePackageLocation,
   getPackage,
   getUserPackages,
+  getPackages,
 };

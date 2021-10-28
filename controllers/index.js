@@ -4,6 +4,7 @@ const {
   updatePackageLocation,
   getPackage,
   getUserPackages,
+  getPackages,
 } = require("./package.controller");
 const {
   getServices,
@@ -24,6 +25,7 @@ module.exports = {
   updatePackageLocation,
   getPackage,
   getUserPackages,
+  getPackages,
   getServices,
   getService,
   addService,

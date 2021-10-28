@@ -6,6 +6,7 @@ const {
   updatePackageLocation,
   getPackage,
   getUserPackages,
+  getPackages,
 } = require("../controllers");
 
 const roles = require("../constants/roles");
@@ -34,6 +35,12 @@ router.get(
   "/user-packages",
   (req, res, next) => authorize(req, res, next, [roles.user, roles.admin]),
   getUserPackages
+);
+
+router.get(
+  "/packages",
+  (req, res, next) => authorize(req, res, next, [roles.admin]),
+  getPackages
 );
 
 module.exports = router;
