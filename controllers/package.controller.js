@@ -3,7 +3,7 @@ const { Service, Package } = require("../models");
 
 async function sendPackage(req, res, next) {
   try {
-    // const { _id } = req.user;
+    const { _id } = req.user;
     const { serviceName, source, destination } = req.body;
 
     const foundService = await Service.findOne({ name: serviceName });
@@ -14,7 +14,7 @@ async function sendPackage(req, res, next) {
       packageId: generateRandomNo(),
       status: "Issued",
       serviceId: foundService._id,
-      userId: "61768f74d7975ff52f51e5d1",
+      userId: _id,
       location: {
         source,
         currentLocation: null,
@@ -72,10 +72,10 @@ async function getPackage(req, res, next) {
 
 async function getUserPackages(req, res, next) {
   try {
-    // const { _id } = req.user;
+    const { _id } = req.user;
 
     const foundPackages = await Package.find({
-      userId: "61768f74d7975ff52f51e5d1",
+      userId: _id,
     })
       .populate("userId")
       .populate("serviceId")

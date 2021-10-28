@@ -1,9 +1,9 @@
 const { UnauthorizedError } = require("../constants/error");
 
 const handleError = (err, req, res, next) => {
-  console.log('----- err in handleError start ------');
+  console.log("----- err in handleError start ------");
   console.log(err);
-  console.log('----- err in handleError end ------');
+  console.log("----- err in handleError end ------");
   switch (true) {
     case err.name === UnauthorizedError:
       return res
